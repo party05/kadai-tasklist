@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   
   def index
-    @tasks = Task.all
+    @tasks = Task.order(created_at: :desc).page(params[:page]).per(10)
   end
   
   def show
@@ -19,7 +19,7 @@ class TasksController < ApplicationController
       flash[:success] = 'Taskが正常に作成されました'
       redirect_to @task
     else
-      flash.now[:denger] = 'Taskが作成されませんでした'
+      flash.now[:danger] = 'Taskが作成されませんでした'
       render :new
     end
   end
@@ -35,7 +35,7 @@ class TasksController < ApplicationController
       flash[:success] = 'Taskは正常に更新されました'
       redirect_to @task
     else
-      flash.now[:denger] = 'Taskは更新されませんでした'
+      flash.now[:danger] = 'Taskは更新されませんでした'
       render :edit
     end
   end
